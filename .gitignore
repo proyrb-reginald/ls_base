@@ -4,3 +4,5 @@ bsl/tmp/*.mxproject
 bsl/tmp/*.txt
 bsl/tmp/*.json
 build/
+osl/bsp/
+osl/mod/

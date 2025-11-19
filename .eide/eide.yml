@@ -26,6 +26,7 @@ targets:
         - hal/cmsis/inc
         - hal/inc
         - bsl/tmp/Core/Inc
+        - osl/include
       libList: []
     excludeList:
       - hal/src/stm32h7xx_hal_timebase_rtc_alarm_template.c
