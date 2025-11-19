@@ -1,0 +1,91 @@
+version: "4.1"
+name: ls_base
+type: ARM
+deviceName: null
+packDir: null
+srcDirs:
+  - hal/src
+  - bsl/tmp/Core/Src
+virtualFolder:
+  name: <virtual_root>
+  files:
+    - path: bsl/tmp/startup_stm32h743xx.s
+  folders: []
+dependenceList: []
+outDir: build
+miscInfo:
+  uid: 1c2a3cec8c3704ad7b2fab76b504a8be
+targets:
+  Debug:
+    cppPreprocessAttrs:
+      defineList:
+        - STM32H743xx
+        - USE_FULL_LL_DRIVER
+      incList:
+        - hal/cmsis/dev/stm32h7xx/inc
+        - hal/cmsis/inc
+        - hal/inc
+        - bsl/tmp/Core/Inc
+      libList: []
+    excludeList:
+      - hal/src/stm32h7xx_hal_timebase_rtc_alarm_template.c
+      - hal/src/stm32h7xx_hal_timebase_rtc_wakeup_template.c
+      - hal/src/stm32h7xx_hal_timebase_tim_template.c
+      - hal/src/stm32h7xx_hal_msp_template.c
+    toolchain: GCC
+    toolchainConfigMap:
+      GCC:
+        archExtensions: ""
+        cpuType: Cortex-M7
+        floatingPointHardware: single
+        options:
+          version: 5
+          afterBuildTasks: []
+          asm-compiler: {}
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            language-c: gnu11
+            language-cpp: gnu++11
+            one-elf-section-per-data: true
+            one-elf-section-per-function: true
+            optimization: level-debug
+            warnings: all-warnings
+          global:
+            $float-abi-type: hard
+            arm-thumb-mode: thumb
+            not-use-syscalls: true
+            output-debug-info: enable
+            use-newlib-nano: true
+          linker:
+            $outputTaskExcludes:
+              - .bin
+            $toolName: auto
+            LIB_FLAGS: -lm
+            output-format: elf
+            remove-unused-input-sections: true
+        scatterFilePath: bsl/tmp/STM32H743XX_FLASH.ld
+        storageLayout:
+          RAM: []
+          ROM: []
+        useCustomScatterFile: true
+    uploadConfigMap:
+      JLink:
+        baseAddr: ""
+        bin: ""
+        cpuInfo:
+          cpuName: "null"
+          vendor: "null"
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+      STLink:
+        address: "0x08000000"
+        bin: ""
+        elFile: None
+        optionBytes: .eide/debug.st.option.bytes.ini
+        otherCmds: ""
+        proType: SWD
+        resetMode: default
+        runAfterProgram: true
+        speed: 4000
+    uploader: STLink
