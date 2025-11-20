@@ -132,6 +132,15 @@ int main(void)
             case 3:
                 output("3\r\n");
                 break;
+            case 4:
+                output("4\r\n");
+                break;
+            case 5:
+                output("5\r\n");
+                break;
+            case 6:
+                output("6\r\n");
+                break;
             default:
                 output("0\r\n");
                 break;
@@ -244,7 +253,10 @@ void MPU_Config(void)
 
   /** Initializes and configures the Region and the memory to be protected
   */
-    LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER0, 0x0, 0xC0000000, LL_MPU_REGION_SIZE_32MB | LL_MPU_TEX_LEVEL0 | LL_MPU_REGION_FULL_ACCESS | LL_MPU_INSTRUCTION_ACCESS_ENABLE | LL_MPU_ACCESS_SHAREABLE | LL_MPU_ACCESS_NOT_CACHEABLE | LL_MPU_ACCESS_NOT_BUFFERABLE);
+    LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER0, 0x0, 0xC0000000,
+                        LL_MPU_REGION_SIZE_32MB | LL_MPU_TEX_LEVEL0 | LL_MPU_REGION_FULL_ACCESS |
+                            LL_MPU_INSTRUCTION_ACCESS_ENABLE | LL_MPU_ACCESS_SHAREABLE |
+                            LL_MPU_ACCESS_NOT_CACHEABLE | LL_MPU_ACCESS_NOT_BUFFERABLE);
   /* Enables the MPU */
     LL_MPU_Enable(LL_MPU_CTRL_PRIVILEGED_DEFAULT);
 }

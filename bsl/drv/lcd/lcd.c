@@ -16,7 +16,8 @@ void lcd_fill_color_sync(int32_t sx, int32_t sy, uint32_t width, uint32_t height
     // sdram_write_byte(sdram_get_addr(), (uint8_t *)&color, width * height * 2);
 }
 
-void lcd_fill_color_async(int sx, int sy, uint32_t width, uint32_t height, uint16_t color, void *dst_data)
+void lcd_fill_color_async(int sx, int sy, uint32_t width, uint32_t height, uint16_t color,
+                          void *dst_data)
 {
     LL_DMA2D_SetMode(DMA2D, LL_DMA2D_MODE_R2M);
     LL_DMA2D_SetOutputColorMode(DMA2D, LL_DMA2D_OUTPUT_MODE_RGB565);
@@ -29,7 +30,8 @@ void lcd_fill_color_async(int sx, int sy, uint32_t width, uint32_t height, uint1
     LL_DMA2D_Start(DMA2D);
 }
 
-void lcd_fill_data_async(int sx, int sy, uint32_t width, uint32_t height, void *src_data, void *dst_data)
+void lcd_fill_data_async(int sx, int sy, uint32_t width, uint32_t height, void *src_data,
+                         void *dst_data)
 {
     LL_DMA2D_SetMode(DMA2D, LL_DMA2D_MODE_M2M);
     LL_DMA2D_FGND_SetColorMode(DMA2D, LL_DMA2D_INPUT_MODE_RGB565);
@@ -47,7 +49,8 @@ void lcd_fill_data_async(int sx, int sy, uint32_t width, uint32_t height, void *
 void lcd_test(void)
 {
 #define LCD_FRAME_BUF_SIZE ((uint32_t)((800 * 1280)))
-    static __attribute__((section(".sdram.fb"))) volatile uint16_t lcd_frame_buf[LCD_FRAME_BUF_SIZE];
+    static
+        __attribute__((section(".sdram.fb"))) volatile uint16_t lcd_frame_buf[LCD_FRAME_BUF_SIZE];
     static volatile uint8_t cnt = 0;
 
     // LL_mDelay(5);

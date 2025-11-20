@@ -62,7 +62,7 @@ void sdram_init(void)
     HAL_SDRAM_ProgramRefreshRate(&hsdram1, 918);
     LL_mDelay(1);
 
-    sdram_write_cover(SDRAM_ADDR, 0xFF, SDRAM_SIZE);
+    sdram_write_8b_cover(SDRAM_ADDR, 0xFF, SDRAM_SIZE);
 }
 
 uint32_t sdram_get_addr_head(void)
@@ -75,15 +75,15 @@ uint32_t sdram_get_addr_size(void)
     return SDRAM_SIZE;
 }
 
-void sdram_write_byte(uint32_t addr, uint8_t byte)
+void sdram_write_8b(uint32_t addr, uint8_t data)
 {
     assert_param(((addr >= SDRAM_ADDR) && (addr < (SDRAM_ADDR + SDRAM_SIZE))));
 
     volatile uint8_t *p_sdram = (uint8_t *)addr;
-    *p_sdram = byte;
+    *p_sdram = data;
 }
 
-void sdram_write_cover(uint32_t addr, uint8_t byte, uint32_t size)
+void sdram_write_8b_cover(uint32_t addr, uint8_t data, uint32_t size)
 {
     assert_param(((addr >= SDRAM_ADDR) && (addr < (SDRAM_ADDR + SDRAM_SIZE))));
     assert_param((addr + size) <= (SDRAM_ADDR + SDRAM_SIZE));
@@ -91,11 +91,11 @@ void sdram_write_cover(uint32_t addr, uint8_t byte, uint32_t size)
     volatile uint8_t *p_sdram = (uint8_t *)addr;
     for (uint32_t i = 0; i < size; i++)
     {
-        *p_sdram++ = byte;
+        *p_sdram++ = data;
     }
 }
 
-void sdram_write_byte_stream(uint32_t addr, uint8_t *data, uint32_t size)
+void sdram_write_8b_stream(uint32_t addr, uint8_t *data, uint32_t size)
 {
     assert_param(((addr >= SDRAM_ADDR) && (addr < (SDRAM_ADDR + SDRAM_SIZE))));
     assert_param(data != NULL);
@@ -108,52 +108,143 @@ void sdram_write_byte_stream(uint32_t addr, uint8_t *data, uint32_t size)
     }
 }
 
+void sdram_write_16b(uint32_t addr, uint16_t data)
+{
+    assert_param(((addr >= SDRAM_ADDR) && (addr < (SDRAM_ADDR + SDRAM_SIZE))));
+
+    volatile uint8_t *p_sdram = (uint8_t *)addr;
+    *p_sdram++ = data & 0x00FF;
+    *p_sdram = (data >> 8) & 0x00FF;
+}
+
+void sdram_write_16b_cover(uint32_t addr, uint16_t data, uint32_t size)
+{
+    assert_param(((addr >= SDRAM_ADDR) && (addr < (SDRAM_ADDR + SDRAM_SIZE))));
+    assert_param((addr + size) <= (SDRAM_ADDR + SDRAM_SIZE));
+
+    volatile uint8_t *p_sdram = (uint8_t *)addr;
+    for (uint32_t i = 0; i < size; i++)
+    {
+        *p_sdram++ = data & 0x00FF;
+        *p_sdram++ = (data >> 8) & 0x00FF;
+    }
+}
+
+void sdram_write_16b_stream(uint32_t addr, uint16_t *data, uint32_t size)
+{
+    assert_param(((addr >= SDRAM_ADDR) && (addr < (SDRAM_ADDR + SDRAM_SIZE))));
+    assert_param(data != NULL);
+    assert_param((addr + size) <= (SDRAM_ADDR + SDRAM_SIZE));
+
+    volatile uint8_t *p_sdram = (uint8_t *)addr;
+    for (uint32_t i = 0; i < size; i++)
+    {
+        *p_sdram++ = data[i] & 0x00FF;
+        *p_sdram++ = (data[i] >> 8) & 0x00FF;
+    }
+}
+
 uint8_t sdram_test(void)
 {
+    {
 #define TEST_SIZE 256
 #if TEST_SIZE > 256
 #warning "TES_SIZE must be less than or equal to 256"
 #endif
-    volatile uint8_t *sdram_data = (uint8_t *)SDRAM_ADDR;
+        volatile uint8_t *sdram_data = (uint8_t *)SDRAM_ADDR;
 
-    sdram_write_cover(SDRAM_ADDR, 0xFF, SDRAM_SIZE);
-    SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE);
-    for (uint32_t i = 0; i < TEST_SIZE; i++)
-    {
-        if (sdram_data[i] != 0xFF)
+        sdram_write_8b_cover(SDRAM_ADDR, 0x00, SDRAM_SIZE);
+        SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE);
+        for (uint32_t i = 0; i < TEST_SIZE; i++)
         {
-            return 1;
+            if (sdram_data[i] != (uint8_t)0x00)
+            {
+                return 1;
+            }
         }
+
+        for (uint32_t i = 0; i < TEST_SIZE; i++)
+        {
+            sdram_write_8b((uint32_t)sdram_data + i, i % TEST_SIZE);
+        }
+        SCB_CleanDCache_by_Addr((uint32_t *)sdram_data, TEST_SIZE);
+        SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE);
+        for (uint32_t i = 0; i < TEST_SIZE; i++)
+        {
+            if (sdram_data[i] != (i % TEST_SIZE))
+            {
+                return 2;
+            }
+        }
+
+        uint8_t test_data[TEST_SIZE];
+        for (uint32_t i = 0; i < TEST_SIZE; i++)
+        {
+            test_data[i] = (TEST_SIZE - 1) - (i % TEST_SIZE);
+        }
+        SCB_CleanDCache_by_Addr((uint32_t *)test_data, TEST_SIZE);
+        sdram_write_8b_stream((uint32_t)sdram_data, test_data, TEST_SIZE);
+        SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE);
+        for (uint32_t i = 0; i < TEST_SIZE; i++)
+        {
+            if (sdram_data[i] != (TEST_SIZE - 1) - (i % TEST_SIZE))
+            {
+                return 3;
+            }
+        }
+#undef TEST_SIZE
     }
 
-    for (uint32_t i = 0; i < TEST_SIZE; i++)
     {
-        sdram_write_byte((uint32_t)sdram_data + i, i % TEST_SIZE);
-    }
-    SCB_CleanDCache_by_Addr((uint32_t *)sdram_data, TEST_SIZE);
-    SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE);
-    for (uint32_t i = 0; i < TEST_SIZE; i++)
-    {
-        if (sdram_data[i] != (i % TEST_SIZE))
-        {
-            return 2;
-        }
-    }
+#define TEST_SIZE 128
+#if TEST_SIZE > 128
+#warning "TES_SIZE must be less than or equal to 128"
+#endif
+        volatile uint8_t * const sdram_data = (uint8_t *)SDRAM_ADDR;
 
-    uint8_t test_data[TEST_SIZE];
-    for (uint32_t i = 0; i < TEST_SIZE; i++)
-    {
-        test_data[i] = (TEST_SIZE - 1) - (i % TEST_SIZE);
-    }
-    SCB_CleanDCache_by_Addr((uint32_t *)test_data, TEST_SIZE);
-    sdram_write_byte_stream((uint32_t)sdram_data, test_data, TEST_SIZE);
-    SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE);
-    for (uint32_t i = 0; i < TEST_SIZE; i++)
-    {
-        if (sdram_data[i] != (TEST_SIZE - 1) - (i % TEST_SIZE))
+        sdram_write_16b_cover(SDRAM_ADDR, 0x0000, SDRAM_SIZE / 2);
+        SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE * 2);
+        for (uint32_t i = 0; i < TEST_SIZE; i++)
         {
-            return 3;
+            if ((sdram_data[i] != (uint8_t)0x00) || (sdram_data[i + 1] != (uint8_t)0x00))
+            {
+                return 4;
+            }
         }
+
+        for (uint32_t i = 0; i < TEST_SIZE; i++)
+        {
+            sdram_write_16b((uint32_t)sdram_data + i * 2, i);
+        }
+        SCB_CleanDCache_by_Addr((uint32_t *)sdram_data, TEST_SIZE * 2);
+        SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE * 2);
+        for (uint32_t i = 0; i < TEST_SIZE; i++)
+        {
+            if ((sdram_data[i * 2] != (uint8_t)(i & 0x00FF)) ||
+                (sdram_data[i * 2 + 1] != (uint8_t)((i >> 8) & 0x00FF)))
+            {
+                return 5;
+            }
+        }
+
+        uint16_t test_data[TEST_SIZE];
+        for (uint32_t i = 0; i < TEST_SIZE; i++)
+        {
+            test_data[i] = (TEST_SIZE - 1) - i;
+        }
+        SCB_CleanDCache_by_Addr((uint32_t *)test_data, TEST_SIZE);
+        sdram_write_16b_stream((uint32_t)sdram_data, test_data, TEST_SIZE);
+        SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE);
+        for (uint32_t i = 0; i < TEST_SIZE; i++)
+        {
+            if ((sdram_data[i * 2] != (uint8_t)(((TEST_SIZE - 1) - i) & 0x00FF)) ||
+                (sdram_data[i * 2 + 1] != (uint8_t)((((TEST_SIZE - 1) - i) >> 8) & 0x00FF)))
+            {
+                return 6;
+            }
+        }
+#undef TEST_SIZE
+#undef TEST_DEF_DATA
     }
 
     return 0;
