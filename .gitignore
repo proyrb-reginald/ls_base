@@ -11,4 +11,7 @@ mdl/lvgl/demos/
 mdl/lvgl/examples/
 mdl/lvgl/src/libs/
 
+svl/gui/*.txt
+svl/gui/*.info
+
 build/

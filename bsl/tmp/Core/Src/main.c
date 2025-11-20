@@ -116,10 +116,11 @@ int main(void)
     MX_USART2_UART_Init();
     MX_FMC_Init();
     sdram_init();
-    lcd_init();
+    lv_init();
+    lv_port_disp_init();
     MX_LTDC_Init();
     MX_DMA2D_Init();
-    lv_init();
+    ui_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -128,12 +129,9 @@ int main(void)
     {
         LL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
         LL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-        {
-            lcd_test();
-        }
         lv_timer_handler();
         LV_LOG_TRACE("run");
-        LL_mDelay(500);
+        LL_mDelay(5);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

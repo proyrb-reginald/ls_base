@@ -7,6 +7,7 @@ srcDirs:
   - bsl
   - hal
   - mdl
+  - svl
 virtualFolder:
   name: <virtual_root>
   files: []
@@ -22,14 +23,16 @@ targets:
         - STM32H743xx
         - USE_FULL_LL_DRIVER
         - LV_CONF_INCLUDE_SIMPLE
+        - LV_LVGL_H_INCLUDE_SIMPLE
       incList:
         - hal/cmsis/dev/stm32h7xx/inc
         - hal/cmsis/inc
         - hal/inc
         - bsl/tmp/Core/Inc
-        - bsl/rtos
+        - bsl/port
         - bsl/drv
         - mdl/lvgl
+        - svl/gui
       libList: []
     excludeList:
       - hal/src/stm32h7xx_hal_timebase_rtc_alarm_template.c
