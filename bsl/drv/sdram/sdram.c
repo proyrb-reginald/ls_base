@@ -151,9 +151,9 @@ uint8_t sdram_test(void)
 #if TEST_SIZE > 256
 #warning "TES_SIZE must be less than or equal to 256"
 #endif
-        volatile uint8_t *sdram_data = (uint8_t *)SDRAM_ADDR;
+        volatile uint8_t *sdram_data = (uint8_t *)sdram_get_addr_head();
 
-        sdram_write_8b_cover(SDRAM_ADDR, 0x00, SDRAM_SIZE);
+        sdram_write_8b_cover((uint32_t)sdram_data, 0x00, sdram_get_addr_size());
         SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE);
         for (uint32_t i = 0; i < TEST_SIZE; i++)
         {
@@ -200,9 +200,9 @@ uint8_t sdram_test(void)
 #if TEST_SIZE > 128
 #warning "TES_SIZE must be less than or equal to 128"
 #endif
-        volatile uint8_t * const sdram_data = (uint8_t *)SDRAM_ADDR;
+        volatile uint8_t * const sdram_data = (uint8_t *)sdram_get_addr_head();
 
-        sdram_write_16b_cover(SDRAM_ADDR, 0x0000, SDRAM_SIZE / 2);
+        sdram_write_16b_cover((uint32_t)sdram_data, 0x0000, sdram_get_addr_size() / 2);
         SCB_InvalidateDCache_by_Addr((void *)sdram_data, TEST_SIZE * 2);
         for (uint32_t i = 0; i < TEST_SIZE; i++)
         {

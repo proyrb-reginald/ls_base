@@ -13,7 +13,7 @@ void lcd_init(void)
 
 void lcd_fill_color_sync(int32_t sx, int32_t sy, uint32_t width, uint32_t height, uint16_t color)
 {
-    // sdram_write_byte(sdram_get_addr(), (uint8_t *)&color, width * height * 2);
+    sdram_write_16b_cover(sdram_get_addr_head() + sy * 800 * 2 + sx * 2, color, width * height);
 }
 
 void lcd_fill_color_async(int sx, int sy, uint32_t width, uint32_t height, uint16_t color,
@@ -48,24 +48,16 @@ void lcd_fill_data_async(int sx, int sy, uint32_t width, uint32_t height, void *
 
 void lcd_test(void)
 {
-#define LCD_FRAME_BUF_SIZE ((uint32_t)((800 * 1280)))
-    static
-        __attribute__((section(".sdram.fb"))) volatile uint16_t lcd_frame_buf[LCD_FRAME_BUF_SIZE];
+#define LCD_FB_SIZE ((uint32_t)((800 * 1280)))
+    // static __attribute__((section(".sdram.fb"))) volatile uint16_t lcd_fb[LCD_FB_SIZE];
     static volatile uint8_t cnt = 0;
 
-    // LL_mDelay(5);
-
-    // if (cnt % 2 == 0)
-    // {
-    //     lcd_fill_color(0, 0, 800, 1280, 0xF800, (void *)lcd_buf_1);
-    // }
-    // else
-    // {
-    //     lcd_fill_color(0, 0, 800, 1280, 0x001F, (void *)lcd_buf_1);
-    // }
-
-    // rt_thread_mdelay(25);
-    // lcd_fill_data(0, 0, 32, 32, (void *)lcd_buf_1, (void *)lcd_buf_0);
-
-    cnt++;
+    if (cnt++ % 2 == 0)
+    {
+        lcd_fill_color_sync(0, 0, 800, 1280, 0x001F);
+    }
+    else
+    {
+        lcd_fill_color_sync(0, 0, 800, 1280, 0xF800);
+    }
 }
