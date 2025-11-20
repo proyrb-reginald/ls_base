@@ -1,15 +1,18 @@
 #ifndef LCD_H
 #define LCD_H
 
+/**
+ * @brief 初始化LCD屏幕
+ */
 void lcd_init(void);
-void dma2d_irq_handler(void);
-void lcd_fill_color(int sx, int sy, uint32_t width, uint32_t height, uint16_t color,
-                    void *dst_data);
-void lcd_fill_data(int sx, int sy, uint32_t width, uint32_t height, void *src_data, void *dst_data);
 
-#if USE_TEST
-/* 测试LCD设备 */
+/**
+ * @brief 测试LCD屏幕
+ * @retval 0 功能正常
+ * @retval 1 SDRAM覆盖读写出错
+ * @retval 2 SDRAM单字节读写出错
+ * @retval 3 SDRAM字节流读写出错
+ */
 void lcd_test(void);
-#endif
 
 #endif

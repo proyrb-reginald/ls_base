@@ -4,8 +4,8 @@ type: ARM
 deviceName: null
 packDir: null
 srcDirs:
-  - hal/src
   - bsl
+  - hal
 virtualFolder:
   name: <virtual_root>
   files: []
@@ -35,7 +35,6 @@ targets:
       - hal/src/stm32h7xx_hal_msp_template.c
       - bsl/tmp/Drivers
       - bsl/tmp/cmake
-      - bsl/drv/lcd
     toolchain: GCC
     toolchainConfigMap:
       GCC:
@@ -48,8 +47,8 @@ targets:
           asm-compiler: {}
           beforeBuildTasks: []
           c/cpp-compiler:
-            language-c: gnu11
-            language-cpp: gnu++11
+            language-c: gnu23
+            language-cpp: gnu++23
             one-elf-section-per-data: true
             one-elf-section-per-function: true
             optimization: level-debug

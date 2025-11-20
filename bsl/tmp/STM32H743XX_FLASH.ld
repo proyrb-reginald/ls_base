@@ -184,8 +184,8 @@ SECTIONS
   {
     . = ALIGN(8);
     PROVIDE(_sdram_start = .);
-    PROVIDE(_frame_buffer_start = .);
-    KEEP(*(.sdram.frame_buffer))
+    PROVIDE(_fb_start = .);
+    KEEP(*(.sdram.fb))
     . = ALIGN(8);
     KEEP(*(.sdram.test))
     PROVIDE(_sdram_end = .);

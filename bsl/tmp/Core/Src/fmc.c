@@ -22,7 +22,6 @@
 #include "fmc.h"
 
 /* USER CODE BEGIN 0 */
-
 /* USER CODE END 0 */
 
 SDRAM_HandleTypeDef hsdram1;
@@ -69,7 +68,6 @@ void MX_FMC_Init(void)
   }
 
   /* USER CODE BEGIN FMC_Init 2 */
-
   /* USER CODE END FMC_Init 2 */
 }
 

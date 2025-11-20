@@ -21,7 +21,6 @@
 #include "ltdc.h"
 
 /* USER CODE BEGIN 0 */
-
 /* USER CODE END 0 */
 
 LTDC_HandleTypeDef hltdc;
@@ -31,7 +30,6 @@ void MX_LTDC_Init(void)
 {
 
   /* USER CODE BEGIN LTDC_Init 0 */
-
   /* USER CODE END LTDC_Init 0 */
 
   LTDC_LayerCfgTypeDef pLayerCfg = {0};

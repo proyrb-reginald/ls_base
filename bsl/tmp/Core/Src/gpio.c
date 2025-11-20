@@ -59,7 +59,10 @@ void MX_GPIO_Init(void)
   LL_GPIO_ResetOutputPin(GPIOB, LED_RED_Pin|LED_GREEN_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOD, LCD_RST_Pin|LCD_BL_Pin);
+  LL_GPIO_ResetOutputPin(LCD_BL_GPIO_Port, LCD_BL_Pin);
+
+  /**/
+  LL_GPIO_SetOutputPin(LCD_RST_GPIO_Port, LCD_RST_Pin);
 
   /**/
   GPIO_InitStruct.Pin = LED_RED_Pin|LED_GREEN_Pin;

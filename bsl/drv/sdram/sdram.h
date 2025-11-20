@@ -19,19 +19,19 @@ extern uint32_t sdram_get_addr_head(void);
 extern uint32_t sdram_get_addr_size(void);
 
 /**
- * @brief 用指定数据覆盖SDRAM
- */
-extern void sdram_cover_data(uint8_t value);
-
-/**
  * @brief 向指定地址写入单字节数据
  */
-extern void sdram_write_byte(uint32_t addr, uint8_t value);
+extern void sdram_write_byte(uint32_t addr, uint8_t byte);
+
+/**
+ * @brief 用指定数据覆盖SDRAM
+ */
+extern void sdram_write_cover(uint32_t addr, uint8_t byte, uint32_t size);
 
 /**
  * @brief 向指定地址写入字节流数据
  */
-extern void sdram_write_stream(uint32_t addr, uint8_t *data, uint32_t size);
+extern void sdram_write_byte_stream(uint32_t addr, uint8_t *data, uint32_t size);
 
 /**
  * @brief 测试SDRAM
