@@ -22,6 +22,16 @@ void lcd_fill_color_sync(int32_t sx, int32_t sy, uint32_t width, uint32_t height
 void lcd_fill_color_async(int32_t sx, int32_t sy, uint32_t width, uint32_t height, uint16_t color);
 
 /**
+ * @brief LCD同步内存搬运函数
+ */
+void lcd_fill_data_sync(int32_t sx, int32_t sy, uint32_t width, uint32_t height, uint16_t *data);
+
+/**
+ * @brief LCD异步内存搬运函数
+ */
+void lcd_fill_data_async(int32_t sx, int32_t sy, uint32_t width, uint32_t height, uint16_t *data);
+
+/**
  * @brief 测试LCD屏幕
  */
 void lcd_test(void);
