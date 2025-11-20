@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <board.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,7 +60,6 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
 /* USER CODE END 0 */
 
 /**
@@ -112,14 +111,34 @@ int main(void)
   MX_LTDC_Init();
   MX_DMA2D_Init();
   /* USER CODE BEGIN 2 */
-
+    sdram_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-    while (1) {
+    while (1)
+    {
         LL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
         LL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+        {
+            uint8_t result = sdram_test();
+            switch (result)
+            {
+            case 1:
+                output("1\r\n");
+                break;
+            case 2:
+                output("2\r\n");
+                break;
+            case 3:
+                output("3\r\n");
+                break;
+            default:
+                output("0\r\n");
+                break;
+            }
+        }
+        output("run\r\n");
         LL_mDelay(500);
     /* USER CODE END WHILE */
 
@@ -245,7 +264,8 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
     /* User can add his own implementation to report the HAL error return state */
     __disable_irq();
-    while (1) {
+    while (1)
+    {
     }
   /* USER CODE END Error_Handler_Debug */
 }

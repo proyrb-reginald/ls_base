@@ -5,11 +5,10 @@ deviceName: null
 packDir: null
 srcDirs:
   - hal/src
-  - bsl/tmp/Core/Src
+  - bsl
 virtualFolder:
   name: <virtual_root>
-  files:
-    - path: bsl/tmp/startup_stm32h743xx.s
+  files: []
   folders: []
 dependenceList: []
 outDir: build
@@ -26,13 +25,17 @@ targets:
         - hal/cmsis/inc
         - hal/inc
         - bsl/tmp/Core/Inc
-        - osl/include
+        - bsl/rtos
+        - bsl/drv
       libList: []
     excludeList:
       - hal/src/stm32h7xx_hal_timebase_rtc_alarm_template.c
       - hal/src/stm32h7xx_hal_timebase_rtc_wakeup_template.c
       - hal/src/stm32h7xx_hal_timebase_tim_template.c
       - hal/src/stm32h7xx_hal_msp_template.c
+      - bsl/tmp/Drivers
+      - bsl/tmp/cmake
+      - bsl/drv/lcd
     toolchain: GCC
     toolchainConfigMap:
       GCC:
