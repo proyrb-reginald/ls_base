@@ -103,12 +103,12 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-    MX_GPIO_Init();
-    MX_USART1_UART_Init();
-    MX_FMC_Init();
-    MX_USART2_UART_Init();
-    MX_LTDC_Init();
-    MX_DMA2D_Init();
+  MX_GPIO_Init();
+  MX_USART1_UART_Init();
+  MX_FMC_Init();
+  MX_USART2_UART_Init();
+  MX_LTDC_Init();
+  MX_DMA2D_Init();
   /* USER CODE BEGIN 2 */
 #endif
     MX_GPIO_Init();
