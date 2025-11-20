@@ -4,9 +4,47 @@
 // Project name: ls_gui
 
 #include "../ui.h"
+#include "../../../../../mdl/lvgl/src/misc/lv_anim.h"
 
-lv_obj_t * ui_Screen1 = NULL;
-lv_obj_t * ui_Button1 = NULL;
+// 定义按钮上下移动的范围（相对于初始位置的偏移量）
+#define BUTTON_MOVE_RANGE 100
+
+lv_obj_t *ui_Screen1 = NULL;
+lv_obj_t *ui_Button1 = NULL;
+
+// 动画回调函数
+static void button_y_anim_cb(void *var, int32_t v)
+{
+    lv_obj_set_y((lv_obj_t *)var, v);
+}
+
+// 动画启动函数
+static void start_button_animation(void)
+{
+    // 获取按钮初始位置
+    lv_point_t initial_pos;
+    initial_pos.x = lv_obj_get_x(ui_Button1);
+    initial_pos.y = lv_obj_get_y(ui_Button1);
+
+    // 创建动画对象
+    lv_anim_t anim;
+    lv_anim_init(&anim);
+    lv_anim_set_var(&anim, ui_Button1);
+    lv_anim_set_exec_cb(&anim, button_y_anim_cb);
+    lv_anim_set_duration(&anim, 2000); // 2秒完成单程移动
+    lv_anim_set_repeat_count(&anim, LV_ANIM_REPEAT_INFINITE); // 无限重复
+    lv_anim_set_repeat_delay(&anim, 0);
+    lv_anim_set_playback_duration(&anim, 2000); // 回程也用2秒
+    lv_anim_set_playback_delay(&anim, 0);
+    lv_anim_set_path_cb(&anim, lv_anim_path_linear); // 线性路径
+
+    // 设置动画值范围（上下移动）
+    lv_anim_set_values(&anim, initial_pos.y - BUTTON_MOVE_RANGE, initial_pos.y + BUTTON_MOVE_RANGE);
+
+    // 启动动画
+    lv_anim_start(&anim);
+}
+
 // event funtions
 
 // build funtions
@@ -23,14 +61,19 @@ void ui_Screen1_screen_init(void)
     lv_obj_add_flag(ui_Button1, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_remove_flag(ui_Button1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
+    // 启动按钮动画
+    start_button_animation();
 }
 
 void ui_Screen1_screen_destroy(void)
 {
-    if(ui_Screen1) lv_obj_del(ui_Screen1);
+    // 删除按钮的动画
+    lv_anim_delete(ui_Button1, NULL);
+
+    if (ui_Screen1)
+        lv_obj_del(ui_Screen1);
 
     // NULL screen variables
     ui_Screen1 = NULL;
     ui_Button1 = NULL;
-
 }

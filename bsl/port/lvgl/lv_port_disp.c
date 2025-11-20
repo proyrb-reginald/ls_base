@@ -65,7 +65,7 @@ void lv_port_disp_init(void)
     /* Example 1
      * One buffer for partial rendering*/
     LV_ATTRIBUTE_MEM_ALIGN
-    static uint8_t buf_1_1[MY_DISP_HOR_RES * 10 * BYTE_PER_PIXEL]; /*A buffer for 10 rows*/
+    static uint8_t buf_1_1[MY_DISP_HOR_RES * 32 * BYTE_PER_PIXEL]; /*A buffer for 10 rows*/
     lv_display_set_buffers(disp, buf_1_1, NULL, sizeof(buf_1_1), LV_DISPLAY_RENDER_MODE_PARTIAL);
 
     // /* Example 2
@@ -121,13 +121,13 @@ void disp_disable_update(void)
  *'lv_display_flush_ready()' has to be called when it's finished.*/
 static void disp_flush(lv_display_t *disp_drv, const lv_area_t *area, uint8_t *px_map)
 {
-    LV_LOG_USER("flush");
+    LV_LOG_USER("flush: %ld,%ld %ld,%ld", area->x1, area->y1, area->x2, area->y2);
     if (disp_flush_enabled)
     {
-        lcd_fill_lvgl_sync(disp_drv, area->x1, area->y1, area->x2 - area->x1 + 1,
-                           area->y2 - area->y1 + 1, (uint16_t *)px_map);
+        lcd_fill_lvgl_async(disp_drv, area->x1, area->y1, area->x2 - area->x1 + 1,
+                            area->y2 - area->y1 + 1, (uint16_t *)px_map);
     }
-    lv_display_flush_ready(disp_drv);
+    // lv_display_flush_ready(disp_drv);
 }
 
 #else /*Enable this file at the top*/

@@ -130,8 +130,9 @@ int main(void)
         LL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
         LL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
         lv_timer_handler();
+        // lcd_test();
         LV_LOG_TRACE("run");
-        LL_mDelay(5);
+        LL_mDelay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

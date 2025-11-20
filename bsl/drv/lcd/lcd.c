@@ -67,7 +67,7 @@ void lcd_fill_data_async(int32_t sx, int32_t sy, uint32_t width, uint32_t height
     LL_DMA2D_SetOutputColorMode(DMA2D, LL_DMA2D_OUTPUT_MODE_RGB565);
     LL_DMA2D_SetNbrOfPixelsPerLines(DMA2D, width);
     LL_DMA2D_SetNbrOfLines(DMA2D, height);
-    LL_DMA2D_FGND_SetLineOffset(DMA2D, 0);
+    LL_DMA2D_FGND_SetLineOffset(DMA2D, 800 - width);
     LL_DMA2D_SetLineOffset(DMA2D, 800 - width);
     LL_DMA2D_FGND_SetMemAddr(DMA2D, ((uint32_t)data + 2 * (sy * 800 + sx)));
     LL_DMA2D_SetOutputMemAddr(DMA2D, ((uint32_t)lcd_fb_main + 2 * (sy * 800 + sx)));
@@ -75,26 +75,21 @@ void lcd_fill_data_async(int32_t sx, int32_t sy, uint32_t width, uint32_t height
     LL_DMA2D_Start(DMA2D);
 }
 
-/**
- * @brief LCD同步内存搬运LVGL函数
- */
 void lcd_fill_lvgl_sync(lv_display_t *disp_drv, int32_t sx, int32_t sy, uint32_t width,
                         uint32_t height, uint16_t *data)
 {
     lv_disp_drv = disp_drv;
     for (int32_t i = 0; i < height; i++)
     {
-        sdram_write_16b_stream((uint32_t)lcd_fb_main + (sy + i) * 800 * 2 + sx * 2,
+        sdram_write_16b_stream((uint32_t)lcd_fb_main + ((sy + i) * 800 + sx) * 2,
                                (uint16_t *)((uint32_t)data + i * width * 2), width);
     }
 }
 
-/**
- * @brief LCD异步内存搬运LVGL函数
- */
 void lcd_fill_lvgl_async(lv_display_t *disp_drv, int32_t sx, int32_t sy, uint32_t width,
                          uint32_t height, uint16_t *data)
 {
+    LV_LOG_USER("w:%ld h:%ld", width, height);
     lv_disp_drv = disp_drv;
     LL_DMA2D_SetMode(DMA2D, LL_DMA2D_MODE_M2M);
     LL_DMA2D_FGND_SetColorMode(DMA2D, LL_DMA2D_INPUT_MODE_RGB565);
@@ -103,7 +98,7 @@ void lcd_fill_lvgl_async(lv_display_t *disp_drv, int32_t sx, int32_t sy, uint32_
     LL_DMA2D_SetNbrOfLines(DMA2D, height);
     LL_DMA2D_FGND_SetLineOffset(DMA2D, 0);
     LL_DMA2D_SetLineOffset(DMA2D, 800 - width);
-    LL_DMA2D_FGND_SetMemAddr(DMA2D, ((uint32_t)data + 2 * (sy * 800 + sx)));
+    LL_DMA2D_FGND_SetMemAddr(DMA2D, (uint32_t)data);
     LL_DMA2D_SetOutputMemAddr(DMA2D, ((uint32_t)lcd_fb_main + 2 * (sy * 800 + sx)));
     LL_DMA2D_EnableIT_TC(DMA2D);
     LL_DMA2D_Start(DMA2D);

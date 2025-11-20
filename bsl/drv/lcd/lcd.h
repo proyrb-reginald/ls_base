@@ -29,23 +29,23 @@ void lcd_fill_color_sync(int32_t sx, int32_t sy, uint32_t width, uint32_t height
 void lcd_fill_color_async(int32_t sx, int32_t sy, uint32_t width, uint32_t height, uint16_t color);
 
 /**
- * @brief LCD同步内存搬运函数
+ * @brief LCD同步搬运内存函数
  */
 void lcd_fill_data_sync(int32_t sx, int32_t sy, uint32_t width, uint32_t height, uint16_t *data);
 
 /**
- * @brief LCD异步内存搬运函数
+ * @brief LCD异步搬运内存函数
  */
 void lcd_fill_data_async(int32_t sx, int32_t sy, uint32_t width, uint32_t height, uint16_t *data);
 
 /**
- * @brief LCD同步内存搬运LVGL函数
+ * @brief LCD同步搬运LVGL内存函数
  */
 void lcd_fill_lvgl_sync(lv_display_t *disp_drv, int32_t sx, int32_t sy, uint32_t width,
                         uint32_t height, uint16_t *data);
 
 /**
- * @brief LCD异步内存搬运LVGL函数
+ * @brief LCD异步搬运LVGL内存函数
  */
 void lcd_fill_lvgl_async(lv_display_t *disp_drv, int32_t sx, int32_t sy, uint32_t width,
                          uint32_t height, uint16_t *data);
