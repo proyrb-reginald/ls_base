@@ -2,7 +2,8 @@
 #define BOARD_H
 
 #include <drv.h>
+#include <lvgl.h>
 
-void output(const char *str);
+void print(lv_log_level_t level, const char *buf);
 
 #endif

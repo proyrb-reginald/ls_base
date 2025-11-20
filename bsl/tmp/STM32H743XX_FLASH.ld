@@ -182,12 +182,12 @@ SECTIONS
 
   .sdram(NOLOAD) :
   {
-    . = ALIGN(8);
+    . = ALIGN(4);
     PROVIDE(_sdram_start = .);
     PROVIDE(_fb_start = .);
     KEEP(*(.sdram.fb_main))
     KEEP(*(.sdram.fb_back))
-    . = ALIGN(8);
+    . = ALIGN(4);
     KEEP(*(.sdram.test))
     PROVIDE(_sdram_end = .);
   } > SDRAM

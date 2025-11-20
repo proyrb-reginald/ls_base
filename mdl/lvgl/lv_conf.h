@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file lv_conf.h
  * Configuration file for v9.2.2
  */
@@ -12,7 +12,7 @@
  */
 
 /* clang-format off */
-#if 0 /*Set it to "1" to enable content*/
+#if 1 /*Set it to "1" to enable content*/
 
 #ifndef LV_CONF_H
 #define LV_CONF_H
@@ -126,12 +126,12 @@
  * and can't be drawn in chunks. */
 
 /*The target buffer size for simple layer chunks.*/
-#define LV_DRAW_LAYER_SIMPLE_BUF_SIZE    (24 * 1024)   /*[bytes]*/
+#define LV_DRAW_LAYER_SIMPLE_BUF_SIZE    (0 * 1024)   /*[bytes]*/
 
 /* The stack size of the drawing thread.
  * NOTE: If FreeType or ThorVG is enabled, it is recommended to set it to 32KB or more.
  */
-#define LV_DRAW_THREAD_STACK_SIZE    (8 * 1024)   /*[bytes]*/
+#define LV_DRAW_THREAD_STACK_SIZE    (0 * 1024)   /*[bytes]*/
 
 #define LV_USE_DRAW_SW 1
 #if LV_USE_DRAW_SW == 1
@@ -146,12 +146,12 @@
 	#define LV_DRAW_SW_SUPPORT_RGB565		1
 	#define LV_DRAW_SW_SUPPORT_RGB565A8		1
 	#define LV_DRAW_SW_SUPPORT_RGB888		1
-	#define LV_DRAW_SW_SUPPORT_XRGB8888		1
-	#define LV_DRAW_SW_SUPPORT_ARGB8888		1
-	#define LV_DRAW_SW_SUPPORT_L8			1
-	#define LV_DRAW_SW_SUPPORT_AL88			1
-	#define LV_DRAW_SW_SUPPORT_A8			1
-	#define LV_DRAW_SW_SUPPORT_I1			1
+	#define LV_DRAW_SW_SUPPORT_XRGB8888		0
+	#define LV_DRAW_SW_SUPPORT_ARGB8888		0
+	#define LV_DRAW_SW_SUPPORT_L8			0
+	#define LV_DRAW_SW_SUPPORT_AL88			0
+	#define LV_DRAW_SW_SUPPORT_A8			0
+	#define LV_DRAW_SW_SUPPORT_I1			0
 
 	/* Set the number of draw unit.
      * > 1 requires an operating system enabled in `LV_USE_OS`
@@ -275,17 +275,16 @@
  *-----------*/
 
 /*Enable the log module*/
-#define LV_USE_LOG 0
+#define LV_USE_LOG 1
 #if LV_USE_LOG
-
     /*How important log should be added:
-    *LV_LOG_LEVEL_TRACE       A lot of logs to give detailed information
-    *LV_LOG_LEVEL_INFO        Log important events
-    *LV_LOG_LEVEL_WARN        Log if something unwanted happened but didn't cause a problem
-    *LV_LOG_LEVEL_ERROR       Only critical issue, when the system may fail
-    *LV_LOG_LEVEL_USER        Only logs added by the user
-    *LV_LOG_LEVEL_NONE        Do not log anything*/
-    #define LV_LOG_LEVEL LV_LOG_LEVEL_WARN
+    *LV_LOG_LEVEL_TRACE 0 A lot of logs to give detailed information
+    *LV_LOG_LEVEL_INFO  1 Log important events
+    *LV_LOG_LEVEL_WARN  2 Log if something unwanted happened but didn't cause a problem
+    *LV_LOG_LEVEL_ERROR 3 Only critical issue, when the system may fail
+    *LV_LOG_LEVEL_USER  4 Only logs added by the user
+    *LV_LOG_LEVEL_NONE  5 Do not log anything*/
+    #define LV_LOG_LEVEL LV_LOG_LEVEL_TRACE
 
     /*1: Print the log with 'printf';
     *0: User need to register a callback with `lv_log_register_print_cb()`*/
@@ -294,7 +293,7 @@
     /*Set callback to print the logs.
      *E.g `my_print`. The prototype should be `void my_print(lv_log_level_t level, const char * buf)`
      *Can be overwritten by `lv_log_register_print_cb`*/
-    //#define LV_LOG_PRINT_CB
+    #define LV_LOG_PRINT_CB print
 
     /*1: Enable print timestamp;
      *0: Disable print timestamp*/
@@ -303,7 +302,6 @@
     /*1: Print file and line number of the log;
      *0: Do not print file and line number of the log*/
     #define LV_LOG_USE_FILE_LINE 1
-
 
     /*Enable/disable LV_LOG_TRACE in modules that produces a huge number of logs*/
     #define LV_LOG_TRACE_MEM        1
@@ -326,9 +324,9 @@
  *If LV_USE_LOG is enabled an error message will be printed on failure*/
 #define LV_USE_ASSERT_NULL          1   /*Check if the parameter is NULL. (Very fast, recommended)*/
 #define LV_USE_ASSERT_MALLOC        1   /*Checks is the memory is successfully allocated or no. (Very fast, recommended)*/
-#define LV_USE_ASSERT_STYLE         0   /*Check if the styles are properly initialized. (Very fast, recommended)*/
-#define LV_USE_ASSERT_MEM_INTEGRITY 0   /*Check the integrity of `lv_mem` after critical operations. (Slow)*/
-#define LV_USE_ASSERT_OBJ           0   /*Check the object's type and existence (e.g. not deleted). (Slow)*/
+#define LV_USE_ASSERT_STYLE         1   /*Check if the styles are properly initialized. (Very fast, recommended)*/
+#define LV_USE_ASSERT_MEM_INTEGRITY 1   /*Check the integrity of `lv_mem` after critical operations. (Slow)*/
+#define LV_USE_ASSERT_OBJ           1   /*Check the object's type and existence (e.g. not deleted). (Slow)*/
 
 /*Add a custom handler when assert happens e.g. to restart the MCU*/
 #define LV_ASSERT_HANDLER_INCLUDE <stdint.h>

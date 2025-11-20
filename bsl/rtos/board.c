@@ -1,10 +1,13 @@
 #include <board.h>
 
-void output(const char *str)
+void print(lv_log_level_t level, const char *buf)
 {
-    while (*str != '\0')
+    if (level >= LV_LOG_LEVEL)
     {
-        while (!LL_USART_IsActiveFlag_TXE(USART2));
-        LL_USART_TransmitData8(USART2, *str++);
+        while (*buf != '\0')
+        {
+            while (!LL_USART_IsActiveFlag_TXE(USART2));
+            LL_USART_TransmitData8(USART2, *buf++);
+        }
     }
 }

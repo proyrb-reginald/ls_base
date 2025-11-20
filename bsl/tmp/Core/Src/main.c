@@ -119,6 +119,7 @@ int main(void)
     lcd_init();
     MX_LTDC_Init();
     MX_DMA2D_Init();
+    lv_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -130,7 +131,8 @@ int main(void)
         {
             lcd_test();
         }
-        output("run\r\n");
+        lv_timer_handler();
+        LV_LOG_TRACE("run");
         LL_mDelay(500);
     /* USER CODE END WHILE */
 
