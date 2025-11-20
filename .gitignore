@@ -3,6 +3,12 @@ bsl/tmp/Drivers
 bsl/tmp/*.mxproject
 bsl/tmp/*.txt
 bsl/tmp/*.json
-build/
+
 osl/bsp/
 osl/mod/
+
+mdl/lvgl/demos/
+mdl/lvgl/examples/
+mdl/lvgl/src/libs/
+
+build/

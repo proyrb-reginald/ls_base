@@ -23,7 +23,10 @@ project_name/
 │ └── src/              # 接口实现
 ├── bsl/                # 板极支持层
 │ │── drv/              # 板载设备驱动
-│ └── rtos/             # 对接操作系统
+│ │ │── sdram/          # SDRAM驱动
+│ │ └── lcd/            # LCD驱动
+│ │── rtos/             # 适配操作系统接口
+│ └── tmp/              # CubeMX工程
 ├── osl/                # 操作系统层
 ├── mdl/                # 系统中间件层
 │ └── lvgl/             # 轻量级图形库
