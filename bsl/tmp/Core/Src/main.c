@@ -127,33 +127,6 @@ int main(void)
     {
         LL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
         LL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-        // {
-        //     uint8_t result = sdram_test();
-        //     switch (result)
-        //     {
-        //     case 1:
-        //         output("1\r\n");
-        //         break;
-        //     case 2:
-        //         output("2\r\n");
-        //         break;
-        //     case 3:
-        //         output("3\r\n");
-        //         break;
-        //     case 4:
-        //         output("4\r\n");
-        //         break;
-        //     case 5:
-        //         output("5\r\n");
-        //         break;
-        //     case 6:
-        //         output("6\r\n");
-        //         break;
-        //     default:
-        //         output("0\r\n");
-        //         break;
-        //     }
-        // }
         {
             lcd_test();
         }

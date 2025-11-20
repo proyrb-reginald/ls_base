@@ -185,7 +185,8 @@ SECTIONS
     . = ALIGN(8);
     PROVIDE(_sdram_start = .);
     PROVIDE(_fb_start = .);
-    KEEP(*(.sdram.fb))
+    KEEP(*(.sdram.fb_main))
+    KEEP(*(.sdram.fb_back))
     . = ALIGN(8);
     KEEP(*(.sdram.test))
     PROVIDE(_sdram_end = .);
