@@ -61,8 +61,9 @@ extern void sdram_write_16b_cover(uint32_t addr, uint16_t data, uint32_t size);
  * @param addr 首地址
  * @param data 16b数据
  * @param size 16b数量
+ * @param step 步长
  */
-extern void sdram_write_16b_stream(uint32_t addr, uint16_t *data, uint32_t size);
+extern void sdram_write_16b_stream(uint32_t addr, uint16_t *data, uint32_t size, uint32_t step);
 
 /**
  * @brief 测试SDRAM

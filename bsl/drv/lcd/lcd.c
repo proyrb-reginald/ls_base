@@ -53,7 +53,7 @@ void lcd_fill_data_sync(int32_t sx, int32_t sy, uint32_t width, uint32_t height,
     for (int32_t i = 0; i < height; i++)
     {
         sdram_write_16b_stream((uint32_t)lcd_fb_main + (sy + i) * 800 * 2 + sx * 2,
-                               (uint16_t *)((uint32_t)data + i * width * 2), width);
+                               (uint16_t *)((uint32_t)data + i * width * 2), width, 1);
     }
 }
 
@@ -79,7 +79,34 @@ void lcd_fill_lvgl_sync(lv_display_t *disp_drv, int32_t sx, int32_t sy, uint32_t
     for (int32_t i = 0; i < height; i++)
     {
         sdram_write_16b_stream((uint32_t)lcd_fb_main + ((sy + i) * 800 + sx) * 2,
-                               (uint16_t *)((uint32_t)data + i * width * 2), width);
+                               (uint16_t *)((uint32_t)data + i * width * 2), width, 1);
+    }
+    lv_display_flush_ready(disp_drv);
+}
+
+void lcd_fill_lvgl_rotated_sync(lv_display_t *disp_drv, lv_display_rotation_t rotation, int32_t sx,
+                                int32_t sy, uint32_t width, uint32_t height, uint16_t *data)
+{
+    lv_disp_drv = NULL;
+    switch ((int)rotation)
+    {
+    case LV_DISPLAY_ROTATION_90:
+        int32_t sx_rotated = 800 - (sy + height);
+        int32_t sy_rotated = sx;
+        uint32_t width_rotated = height;
+        uint32_t height_rotated = width;
+        for (int32_t i = 0; i < width_rotated; i++)
+        {
+            sdram_write_16b_stream(
+                (uint32_t)lcd_fb_main +
+                    (sy_rotated * 800 + (sx_rotated + (width_rotated - i - 1))) * 2,
+                (uint16_t *)((uint32_t)data + i * width * 2), height_rotated, 800 * 2);
+        }
+        break;
+    case LV_DISPLAY_ROTATION_180:
+        break;
+    case LV_DISPLAY_ROTATION_270:
+        break;
     }
     lv_display_flush_ready(disp_drv);
 }

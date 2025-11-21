@@ -4,10 +4,9 @@
 // Project name: ls_gui
 
 #include "../ui.h"
-#include "../../../../../mdl/lvgl/src/misc/lv_anim.h"
 
 // 定义按钮上下移动的范围（相对于初始位置的偏移量）
-#define BUTTON_MOVE_RANGE 100
+#define BUTTON_MOVE_RANGE 200
 
 lv_obj_t *ui_Screen1 = NULL;
 lv_obj_t *ui_Button1 = NULL;
@@ -44,10 +43,6 @@ static void start_button_animation(void)
     // 启动动画
     lv_anim_start(&anim);
 }
-
-// event funtions
-
-// build funtions
 
 void ui_Screen1_screen_init(void)
 {

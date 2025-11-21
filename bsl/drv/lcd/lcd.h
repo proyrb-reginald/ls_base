@@ -45,6 +45,12 @@ void lcd_fill_lvgl_sync(lv_display_t *disp_drv, int32_t sx, int32_t sy, uint32_t
                         uint32_t height, uint16_t *data);
 
 /**
+ * @brief LCD同步搬运LVGL顺时针旋转内存函数
+ */
+void lcd_fill_lvgl_rotated_sync(lv_display_t *disp_drv, lv_display_rotation_t rotation, int32_t sx,
+                                int32_t sy, uint32_t width, uint32_t height, uint16_t *data);
+
+/**
  * @brief LCD异步搬运LVGL内存函数
  */
 void lcd_fill_lvgl_async(lv_display_t *disp_drv, int32_t sx, int32_t sy, uint32_t width,

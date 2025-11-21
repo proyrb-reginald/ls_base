@@ -60,6 +60,7 @@ void lv_port_disp_init(void)
      * Create a display and set a flush_cb
      * -----------------------------------*/
     lv_display_t *disp = lv_display_create(MY_DISP_HOR_RES, MY_DISP_VER_RES);
+    lv_disp_set_rotation(disp, LV_DISPLAY_ROTATION_90);
     lv_display_set_flush_cb(disp, disp_flush);
 
     // /* Example 1
@@ -72,10 +73,10 @@ void lv_port_disp_init(void)
      * Two buffers for partial rendering
      * In flush_cb DMA or similar hardware should be used to update the display in the background.*/
     LV_ATTRIBUTE_MEM_ALIGN
-    static uint8_t buf_2_1[MY_DISP_HOR_RES * 128 * BYTE_PER_PIXEL];
+    static uint8_t buf_2_1[MY_DISP_HOR_RES * DISP_FLUSH_LINE * BYTE_PER_PIXEL];
 
     LV_ATTRIBUTE_MEM_ALIGN
-    static uint8_t buf_2_2[MY_DISP_HOR_RES * 128 * BYTE_PER_PIXEL];
+    static uint8_t buf_2_2[MY_DISP_HOR_RES * DISP_FLUSH_LINE * BYTE_PER_PIXEL];
     lv_display_set_buffers(disp, buf_2_1, buf_2_2, sizeof(buf_2_1), LV_DISPLAY_RENDER_MODE_PARTIAL);
 
     // /* Example 3
@@ -124,8 +125,9 @@ static void disp_flush(lv_display_t *disp_drv, const lv_area_t *area, uint8_t *p
     SCB_InvalidateDCache_by_Addr(px_map, (area->x2 - area->x1 + 1) * (area->y2 - area->y1 + 1) * 2);
     if (disp_flush_enabled)
     {
-        lcd_fill_lvgl_async(disp_drv, area->x1, area->y1, area->x2 - area->x1 + 1,
-                            area->y2 - area->y1 + 1, (uint16_t *)px_map);
+        lcd_fill_lvgl_rotated_sync(disp_drv, lv_display_get_rotation(disp_drv), area->x1, area->y1,
+                                   area->x2 - area->x1 + 1, area->y2 - area->y1 + 1,
+                                   (uint16_t *)px_map);
     }
 }
 

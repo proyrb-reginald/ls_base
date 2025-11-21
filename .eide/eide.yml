@@ -59,6 +59,7 @@ targets:
       - mdl/lvgl/src/libs/thorvg
       - mdl/lvgl/src/libs/tiny_ttf
       - mdl/lvgl/src/libs/tjpgd
+      - svl/LvglWindowsSimulator.cpp
     toolchain: GCC
     toolchainConfigMap:
       GCC:
