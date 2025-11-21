@@ -118,7 +118,7 @@
  *Requirements:
     `LV_USE_MATRIX = 1`.
     The rendering engine needs to support 3x3 matrix transformations.*/
-#define LV_DRAW_TRANSFORM_USE_MATRIX                        0
+#define LV_DRAW_TRANSFORM_USE_MATRIX                        1
 
 /* If a widget has `style_opa < 255` (not `bg_opa`, `text_opa` etc) or not NORMAL blend mode
  * it is buffered into a "simple" layer before rendering. The widget can be buffered in smaller chunks.
@@ -142,9 +142,8 @@
 	 * - gradients use RGB888
 	 * - bitmaps with transparency may use ARGB8888
 	 */
-
 	#define LV_DRAW_SW_SUPPORT_RGB565		                1
-	#define LV_DRAW_SW_SUPPORT_RGB565A8		                1
+	#define LV_DRAW_SW_SUPPORT_RGB565A8		                0
 	#define LV_DRAW_SW_SUPPORT_RGB888		                1
 	#define LV_DRAW_SW_SUPPORT_XRGB8888		                0
 	#define LV_DRAW_SW_SUPPORT_ARGB8888		                0
@@ -159,10 +158,10 @@
     #define LV_DRAW_SW_DRAW_UNIT_CNT                        1
 
     /* Use Arm-2D to accelerate the sw render */
-    #define LV_USE_DRAW_ARM2D_SYNC                          0
+    #define LV_USE_DRAW_ARM2D_SYNC                          1
 
     /* Enable native helium assembly to be compiled */
-    #define LV_USE_NATIVE_HELIUM_ASM                        0
+    #define LV_USE_NATIVE_HELIUM_ASM                        1
 
     /* 0: use a simple renderer capable of drawing only simple rectangles with gradient, images, texts, and straight lines only
      * 1: use a complex renderer capable of drawing rounded corners, shadow, skew lines, and arcs too */
@@ -172,16 +171,16 @@
         /*Allow buffering some shadow calculation.
         *LV_DRAW_SW_SHADOW_CACHE_SIZE is the max. shadow size to buffer, where shadow size is `shadow_width + radius`
         *Caching has LV_DRAW_SW_SHADOW_CACHE_SIZE^2 RAM cost*/
-        #define LV_DRAW_SW_SHADOW_CACHE_SIZE                0
+        #define LV_DRAW_SW_SHADOW_CACHE_SIZE                64
 
         /* Set number of maximally cached circle data.
         * The circumference of 1/4 circle are saved for anti-aliasing
         * radius * 4 bytes are used per circle (the most often used radiuses are saved)
         * 0: to disable caching */
-        #define LV_DRAW_SW_CIRCLE_CACHE_SIZE                4
+        #define LV_DRAW_SW_CIRCLE_CACHE_SIZE                32
     #endif
 
-    #define  LV_USE_DRAW_SW_ASM LV_DRAW_SW_ASM_NONE
+    #define LV_USE_DRAW_SW_ASM LV_DRAW_SW_ASM_NONE
 
     #if LV_USE_DRAW_SW_ASM == LV_DRAW_SW_ASM_CUSTOM
         #define  LV_DRAW_SW_ASM_CUSTOM_INCLUDE ""
@@ -376,7 +375,7 @@
 #define LV_COLOR_MIX_ROUND_OFS                              0
 
 /* Add 2 x 32 bit variables to each lv_obj_t to speed up getting style properties */
-#define LV_OBJ_STYLE_CACHE                                  0
+#define LV_OBJ_STYLE_CACHE                                  1
 
 /* Add `id` field to `lv_obj_t` */
 #define LV_USE_OBJ_ID                                       1
@@ -405,22 +404,22 @@
 #if LV_USE_VG_LITE_THORVG
 
     /*Enable LVGL's blend mode support*/
-    #define LV_VG_LITE_THORVG_LVGL_BLEND_SUPPORT            0
+    #define LV_VG_LITE_THORVG_LVGL_BLEND_SUPPORT 0
 
     /*Enable YUV color format support*/
-    #define LV_VG_LITE_THORVG_YUV_SUPPORT                   0
+    #define LV_VG_LITE_THORVG_YUV_SUPPORT 0
 
     /*Enable Linear gradient extension support*/
-    #define LV_VG_LITE_THORVG_LINEAR_GRADIENT_EXT_SUPPORT   0
+    #define LV_VG_LITE_THORVG_LINEAR_GRADIENT_EXT_SUPPORT 0
 
     /*Enable 16 pixels alignment*/
-    #define LV_VG_LITE_THORVG_16PIXELS_ALIGN                1
+    #define LV_VG_LITE_THORVG_16PIXELS_ALIGN 1
 
     /*Buffer address alignment*/
-    #define LV_VG_LITE_THORVG_BUF_ADDR_ALIGN                64
+    #define LV_VG_LITE_THORVG_BUF_ADDR_ALIGN 64
 
     /*Enable multi-thread render*/
-    #define LV_VG_LITE_THORVG_THREAD_RENDER                 0
+    #define LV_VG_LITE_THORVG_THREAD_RENDER 0
 
 #endif
 
@@ -454,7 +453,7 @@
 #define LV_ATTRIBUTE_LARGE_RAM_ARRAY
 
 /*Place performance critical functions into a faster memory (e.g RAM)*/
-#define LV_ATTRIBUTE_FAST_MEM
+#define LV_ATTRIBUTE_FAST_MEM // __attribute__((section(".fast")))
 
 /*Export integer constant to binding. This macro is used with constants in the form of LV_<CONST> that
  *should also appear on LVGL binding API such as MicroPython.*/
@@ -468,7 +467,7 @@
 
 /*Enable matrix support
  *Requires `LV_USE_FLOAT = 1`*/
-#define LV_USE_MATRIX                                       0
+#define LV_USE_MATRIX                                       1
 
 /*Include `lvgl_private.h` in `lvgl.h` to access internal data and functions by default*/
 #define LV_USE_PRIVATE_API		                            0
@@ -888,10 +887,10 @@
 #define LV_USE_PROFILER                                     0
 #if LV_USE_PROFILER
     /*1: Enable the built-in profiler*/
-    #define LV_USE_PROFILER_BUILTIN                         1
+    #define LV_USE_PROFILER_BUILTIN 1
     #if LV_USE_PROFILER_BUILTIN
         /*Default profiler trace buffer size*/
-        #define LV_PROFILER_BUILTIN_BUF_SIZE                (16 * 1024) /*[bytes]*/
+        #define LV_PROFILER_BUILTIN_BUF_SIZE (16 * 1024) /*[bytes]*/
     #endif
 
     /*Header to include for the profiler*/

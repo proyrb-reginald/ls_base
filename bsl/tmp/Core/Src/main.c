@@ -68,35 +68,36 @@ static void MPU_Config(void);
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
 
   /* MPU Configuration--------------------------------------------------------*/
-    MPU_Config();
+  MPU_Config();
 
   /* Enable the CPU Cache */
 
   /* Enable I-Cache---------------------------------------------------------*/
-    SCB_EnableICache();
+  SCB_EnableICache();
 
   /* Enable D-Cache---------------------------------------------------------*/
-    SCB_EnableDCache();
+  SCB_EnableDCache();
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-    HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
-    SystemClock_Config();
+  SystemClock_Config();
 
   /* Configure the peripherals common clocks */
-    PeriphCommonClock_Config();
+  PeriphCommonClock_Config();
 
   /* USER CODE BEGIN SysInit */
 #if 0
@@ -145,61 +146,63 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
-    LL_FLASH_SetLatency(LL_FLASH_LATENCY_4);
-    while (LL_FLASH_GetLatency() != LL_FLASH_LATENCY_4)
-    {
-    }
-    LL_PWR_ConfigSupply(LL_PWR_LDO_SUPPLY);
-    LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE0);
-    while (LL_PWR_IsActiveFlag_VOS() == 0)
-    {
-    }
-    LL_RCC_HSE_Enable();
+  LL_FLASH_SetLatency(LL_FLASH_LATENCY_4);
+  while(LL_FLASH_GetLatency()!= LL_FLASH_LATENCY_4)
+  {
+  }
+  LL_PWR_ConfigSupply(LL_PWR_LDO_SUPPLY);
+  LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE0);
+  while (LL_PWR_IsActiveFlag_VOS() == 0)
+  {
+  }
+  LL_RCC_HSE_Enable();
 
    /* Wait till HSE is ready */
-    while (LL_RCC_HSE_IsReady() != 1)
-    {
-    }
-    LL_RCC_HSE_EnableCSS();
-    LL_RCC_PLL_SetSource(LL_RCC_PLLSOURCE_HSE);
-    LL_RCC_PLL1P_Enable();
-    LL_RCC_PLL1_SetVCOInputRange(LL_RCC_PLLINPUTRANGE_4_8);
-    LL_RCC_PLL1_SetVCOOutputRange(LL_RCC_PLLVCORANGE_WIDE);
-    LL_RCC_PLL1_SetM(5);
-    LL_RCC_PLL1_SetN(192);
-    LL_RCC_PLL1_SetP(2);
-    LL_RCC_PLL1_SetQ(2);
-    LL_RCC_PLL1_SetR(2);
-    LL_RCC_PLL1_Enable();
+  while(LL_RCC_HSE_IsReady() != 1)
+  {
+
+  }
+  LL_RCC_HSE_EnableCSS();
+  LL_RCC_PLL_SetSource(LL_RCC_PLLSOURCE_HSE);
+  LL_RCC_PLL1P_Enable();
+  LL_RCC_PLL1_SetVCOInputRange(LL_RCC_PLLINPUTRANGE_4_8);
+  LL_RCC_PLL1_SetVCOOutputRange(LL_RCC_PLLVCORANGE_WIDE);
+  LL_RCC_PLL1_SetM(5);
+  LL_RCC_PLL1_SetN(192);
+  LL_RCC_PLL1_SetP(2);
+  LL_RCC_PLL1_SetQ(2);
+  LL_RCC_PLL1_SetR(2);
+  LL_RCC_PLL1_Enable();
 
    /* Wait till PLL is ready */
-    while (LL_RCC_PLL1_IsReady() != 1)
-    {
-    }
+  while(LL_RCC_PLL1_IsReady() != 1)
+  {
+  }
 
    /* Intermediate AHB prescaler 2 when target frequency clock is higher than 80 MHz */
-    LL_RCC_SetAHBPrescaler(LL_RCC_AHB_DIV_2);
+   LL_RCC_SetAHBPrescaler(LL_RCC_AHB_DIV_2);
 
-    LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL1);
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL1);
 
    /* Wait till System clock is ready */
-    while (LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL1)
-    {
-    }
-    LL_RCC_SetSysPrescaler(LL_RCC_SYSCLK_DIV_1);
-    LL_RCC_SetAHBPrescaler(LL_RCC_AHB_DIV_2);
-    LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
-    LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
-    LL_RCC_SetAPB3Prescaler(LL_RCC_APB3_DIV_2);
-    LL_RCC_SetAPB4Prescaler(LL_RCC_APB4_DIV_2);
-    LL_SetSystemCoreClock(480000000);
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL1)
+  {
+
+  }
+  LL_RCC_SetSysPrescaler(LL_RCC_SYSCLK_DIV_1);
+  LL_RCC_SetAHBPrescaler(LL_RCC_AHB_DIV_2);
+  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
+  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
+  LL_RCC_SetAPB3Prescaler(LL_RCC_APB3_DIV_2);
+  LL_RCC_SetAPB4Prescaler(LL_RCC_APB4_DIV_2);
+  LL_SetSystemCoreClock(480000000);
 
    /* Update the time base */
-    if (HAL_InitTick(TICK_INT_PRIORITY) != HAL_OK)
-    {
-        Error_Handler();
-    }
-    LL_RCC_HSE_EnableCSS();
+  if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  LL_RCC_HSE_EnableCSS();
 }
 
 /**
@@ -208,20 +211,21 @@ void SystemClock_Config(void)
   */
 void PeriphCommonClock_Config(void)
 {
-    LL_RCC_PLL3R_Enable();
-    LL_RCC_PLL3_SetVCOInputRange(LL_RCC_PLLINPUTRANGE_8_16);
-    LL_RCC_PLL3_SetVCOOutputRange(LL_RCC_PLLVCORANGE_MEDIUM);
-    LL_RCC_PLL3_SetM(1);
-    LL_RCC_PLL3_SetN(6);
-    LL_RCC_PLL3_SetP(2);
-    LL_RCC_PLL3_SetQ(2);
-    LL_RCC_PLL3_SetR(3);
-    LL_RCC_PLL3_Enable();
+  LL_RCC_PLL3R_Enable();
+  LL_RCC_PLL3_SetVCOInputRange(LL_RCC_PLLINPUTRANGE_8_16);
+  LL_RCC_PLL3_SetVCOOutputRange(LL_RCC_PLLVCORANGE_MEDIUM);
+  LL_RCC_PLL3_SetM(1);
+  LL_RCC_PLL3_SetN(6);
+  LL_RCC_PLL3_SetP(2);
+  LL_RCC_PLL3_SetQ(2);
+  LL_RCC_PLL3_SetR(3);
+  LL_RCC_PLL3_Enable();
 
    /* Wait till PLL is ready */
-    while (LL_RCC_PLL3_IsReady() != 1)
-    {
-    }
+  while(LL_RCC_PLL3_IsReady() != 1)
+  {
+  }
+
 }
 
 /* USER CODE BEGIN 4 */
@@ -232,24 +236,20 @@ void PeriphCommonClock_Config(void)
 
 void MPU_Config(void)
 {
+
   /* Disables the MPU */
-    LL_MPU_Disable();
+  LL_MPU_Disable();
 
   /** Initializes and configures the Region and the memory to be protected
   */
-    LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER0, 0x0, 0xC0000000,
-                        LL_MPU_REGION_SIZE_32MB | LL_MPU_TEX_LEVEL0 | LL_MPU_REGION_FULL_ACCESS |
-                            LL_MPU_INSTRUCTION_ACCESS_ENABLE | LL_MPU_ACCESS_SHAREABLE |
-                            LL_MPU_ACCESS_NOT_CACHEABLE | LL_MPU_ACCESS_NOT_BUFFERABLE);
+  LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER0, 0x0, 0xC0000000, LL_MPU_REGION_SIZE_32MB|LL_MPU_TEX_LEVEL0|LL_MPU_REGION_FULL_ACCESS|LL_MPU_INSTRUCTION_ACCESS_ENABLE|LL_MPU_ACCESS_SHAREABLE|LL_MPU_ACCESS_NOT_CACHEABLE|LL_MPU_ACCESS_NOT_BUFFERABLE);
 
   /** Initializes and configures the Region and the memory to be protected
   */
-    LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER1, 0x0, 0x24000000,
-                        LL_MPU_REGION_SIZE_512KB | LL_MPU_TEX_LEVEL0 | LL_MPU_REGION_FULL_ACCESS |
-                            LL_MPU_INSTRUCTION_ACCESS_ENABLE | LL_MPU_ACCESS_SHAREABLE |
-                            LL_MPU_ACCESS_NOT_CACHEABLE | LL_MPU_ACCESS_NOT_BUFFERABLE);
+  LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER1, 0x0, 0x24000000, LL_MPU_REGION_SIZE_512KB|LL_MPU_TEX_LEVEL0|LL_MPU_REGION_FULL_ACCESS|LL_MPU_INSTRUCTION_ACCESS_ENABLE|LL_MPU_ACCESS_SHAREABLE|LL_MPU_ACCESS_CACHEABLE|LL_MPU_ACCESS_BUFFERABLE);
   /* Enables the MPU */
-    LL_MPU_Enable(LL_MPU_CTRL_PRIVILEGED_DEFAULT);
+  LL_MPU_Enable(LL_MPU_CTRL_PRIVILEGED_DEFAULT);
+
 }
 
 /**

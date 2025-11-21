@@ -121,7 +121,7 @@ void disp_disable_update(void)
  *'lv_display_flush_ready()' has to be called when it's finished.*/
 static void disp_flush(lv_display_t *disp_drv, const lv_area_t *area, uint8_t *px_map)
 {
-    // LV_LOG_USER("flush: %ld,%ld %ld,%ld", area->x1, area->y1, area->x2, area->y2);
+    SCB_InvalidateDCache_by_Addr(px_map, (area->x2 - area->x1 + 1) * (area->y2 - area->y1 + 1) * 2);
     if (disp_flush_enabled)
     {
         lcd_fill_lvgl_async(disp_drv, area->x1, area->y1, area->x2 - area->x1 + 1,

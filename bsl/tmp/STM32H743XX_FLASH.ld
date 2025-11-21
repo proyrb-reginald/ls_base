@@ -180,6 +180,15 @@ SECTIONS
     . = . + _Min_Stack_Size;
   } > DTCMRAM
 
+  .fast(NOLOAD) :
+  {
+    . = ALIGN(4);
+    PROVIDE(_fast_start = .);
+    KEEP(*(.fast))
+    . = ALIGN(4);
+    PROVIDE(_fast_end = .);
+  } > ITCMRAM
+
   .ram(NOLOAD) :
   {
     . = ALIGN(4);
