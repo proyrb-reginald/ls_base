@@ -180,6 +180,16 @@ SECTIONS
     . = . + _Min_Stack_Size;
   } > DTCMRAM
 
+  .ram(NOLOAD) :
+  {
+    . = ALIGN(4);
+    PROVIDE(_ram_start = .);
+    PROVIDE(_lv_db_start = .);
+    KEEP(*(.ram.lv_db))
+    . = ALIGN(4);
+    PROVIDE(_ram_end = .);
+  } > RAM
+
   .sdram(NOLOAD) :
   {
     . = ALIGN(4);

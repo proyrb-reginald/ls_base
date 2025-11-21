@@ -193,9 +193,7 @@ void SysTick_Handler(void)
 void DMA2D_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2D_IRQn 0 */
-    LV_LOG_USER("> DMA2D_IRQHandler");
-    lcd_lvgl_async_handler();
-    LV_LOG_USER("DMA2D_IRQHandler >");
+    lcd_async_handler();
   /* USER CODE END DMA2D_IRQn 0 */
   /* USER CODE BEGIN DMA2D_IRQn 1 */
   /* USER CODE END DMA2D_IRQn 1 */

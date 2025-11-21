@@ -131,8 +131,7 @@ int main(void)
         LL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
         lv_timer_handler();
         // lcd_test();
-        LV_LOG_TRACE("run");
-        LL_mDelay(100);
+        LL_mDelay(5);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -240,6 +239,13 @@ void MPU_Config(void)
   */
     LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER0, 0x0, 0xC0000000,
                         LL_MPU_REGION_SIZE_32MB | LL_MPU_TEX_LEVEL0 | LL_MPU_REGION_FULL_ACCESS |
+                            LL_MPU_INSTRUCTION_ACCESS_ENABLE | LL_MPU_ACCESS_SHAREABLE |
+                            LL_MPU_ACCESS_NOT_CACHEABLE | LL_MPU_ACCESS_NOT_BUFFERABLE);
+
+  /** Initializes and configures the Region and the memory to be protected
+  */
+    LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER1, 0x0, 0x24000000,
+                        LL_MPU_REGION_SIZE_512KB | LL_MPU_TEX_LEVEL0 | LL_MPU_REGION_FULL_ACCESS |
                             LL_MPU_INSTRUCTION_ACCESS_ENABLE | LL_MPU_ACCESS_SHAREABLE |
                             LL_MPU_ACCESS_NOT_CACHEABLE | LL_MPU_ACCESS_NOT_BUFFERABLE);
   /* Enables the MPU */
