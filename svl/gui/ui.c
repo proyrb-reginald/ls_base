@@ -9,7 +9,7 @@
 ///////////////////// VARIABLES ////////////////////
 
 // EVENTS
-lv_obj_t *ui____initial_actions0;
+lv_obj_t *ui_entry_screen;
 
 // IMAGES AND IMAGE SETS
 
@@ -30,9 +30,10 @@ void ui_init(void)
     lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE),
                                               lv_palette_main(LV_PALETTE_RED), false,
                                               LV_FONT_DEFAULT);
-    lv_disp_set_theme(dispp, theme);
-    ui____initial_actions0 = lv_obj_create(NULL);
-    lv_disp_load_scr(create_chart_ui());
+    lv_display_set_theme(dispp, theme);
+    ui_entry_screen = lv_obj_create(NULL);
+    create_chart_ui(ui_entry_screen);
+    lv_screen_load(ui_entry_screen);
 }
 
 void ui_destroy(void)

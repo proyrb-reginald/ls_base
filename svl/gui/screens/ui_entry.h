@@ -2,6 +2,6 @@
 #define UI_ENTRY_H
 
 extern void update_chart_timer_cb(lv_timer_t *timer);
-extern lv_obj_t *create_chart_ui(void);
+extern void create_chart_ui(lv_obj_t *screen);
 
 #endif

@@ -27,7 +27,7 @@ extern "C" {
  *********************/
 #define MY_DISP_HOR_RES 800
 #define MY_DISP_VER_RES 1280
-#define DISP_FLUSH_LINE 64
+#define DISP_FLUSH_LINE 128
 /**********************
  *      TYPEDEFS
  **********************/

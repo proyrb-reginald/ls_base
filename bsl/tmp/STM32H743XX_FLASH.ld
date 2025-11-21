@@ -166,8 +166,8 @@ SECTIONS
     __bss_end__ = _ebss;
     PROVIDE(__bss_end = .);
   } > DTCMRAM
-  PROVIDE(__non_tls_bss_start = ADDR(.bss));
 
+  PROVIDE(__non_tls_bss_start = ADDR(.bss));
   PROVIDE(__bss_start = __tbss_start);
   PROVIDE(__bss_size = __bss_end - __bss_start);
 
