@@ -9,7 +9,6 @@ osl/mod/
 
 mdl/lvgl/demos/
 mdl/lvgl/examples/
-mdl/lvgl/src/libs/
 
 svl/gui/*.txt
 svl/gui/*.info
@@ -18,3 +17,4 @@ build/
 
 *.txt
 *.mk
+*.sh
