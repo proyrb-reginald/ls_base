@@ -18,6 +18,7 @@ extern "C" {
 
 ///////////////////// SCREENS ////////////////////
 
+#include "screens/ui_entry.h"
 #include "screens/ui_Screen1.h"
 
 ///////////////////// VARIABLES ////////////////////
@@ -25,7 +26,7 @@ extern "C" {
 
 // EVENTS
 
-extern lv_obj_t * ui____initial_actions0;
+extern lv_obj_t *ui____initial_actions0;
 
 // UI INIT
 void ui_init(void);
