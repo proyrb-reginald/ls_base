@@ -60,6 +60,8 @@ targets:
       - mdl/lvgl/src/libs/tiny_ttf
       - mdl/lvgl/src/libs/tjpgd
       - svl/LvglWindowsSimulator.cpp
+      - mdl/lvgl/src/libs/expat
+      - mdl/lvgl/src/libs/svg
     toolchain: GCC
     toolchainConfigMap:
       GCC:

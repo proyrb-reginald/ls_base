@@ -54,7 +54,7 @@ lv_obj_t *create_chart_ui(void)
     for (int i = 0; i < CHART_POINT_CNT; i++)
     {
         int32_t initial_value = 40 + rand() % 20;
-        lv_chart_set_series_value_by_id(chart, ser, i, initial_value);
+        // lv_chart_set_series_value_by_id(chart, ser, i, initial_value);
     }
 
     // 创建定时器
